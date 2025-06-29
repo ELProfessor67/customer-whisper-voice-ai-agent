@@ -1,0 +1,15 @@
+torch
+torchaudio>=2.3.0
+aiohttp>=3.9.4
+channels>=4.0.0
+requests>=2.32.2
+twilio
+fastapi
+python-multipart
+uvicorn
+python-dotenv
+loguru
+pydub
+ctranslate2
+faster_whisper
+pipecat-ai[silero,daily,openai,whisper,groq]>=0.0.71

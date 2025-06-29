@@ -1,0 +1,48 @@
+[cerebrium.deployment]
+name = "twillo-with-serverless"
+python_version = "3.11"
+docker_base_image_url = "nvidia/cuda:12.3.2-cudnn9-runtime-ubuntu22.04"
+include = ["./*", "main.py", "cerebrium.toml"]
+exclude = ["./example_exclude"]
+
+[cerebrium.hardware]
+cpu = 4
+memory = 16.0
+compute = "AMPERE_A10"
+region = "ap-south-1"
+
+[cerebrium.scaling]
+min_replicas = 1
+max_replicas = 3
+cooldown = 30
+replica_concurrency = 20
+scaling_metric = "concurrency_utilization"
+scaling_target = 80
+
+[cerebrium.dependencies.pip]
+torch = "latest"
+"pipecat-ai[silero, daily, openai]" = "==0.0.71"
+"pipecat-ai[whisper]" = "latest"
+"pipecat-ai[groq]" = "latest"
+aiohttp = ">=3.9.4"
+torchaudio = ">=2.3.0"
+channels = ">=4.0.0"
+requests = "==2.32.2"
+twilio = "latest"
+fastapi = "latest"
+python-multipart = "latest"
+uvicorn = "latest"
+python-dotenv = "latest"
+loguru = "latest"
+pydub = "latest"
+ctranslate2 = "latest"
+faster_whisper = "latest"
+
+
+[cerebrium.dependencies.apt]
+"ffmpeg" = "latest"
+
+[cerebrium.runtime.custom]
+port = 8765
+entrypoint = ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8765"]
+healthcheck_endpoint = "/health"
